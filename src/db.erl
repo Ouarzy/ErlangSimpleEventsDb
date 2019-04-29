@@ -1,7 +1,12 @@
 -module(db).
 
--export([hello/0]).
+-export([new/0]).
+-export([append/2]).
 
-hello() ->
-    io:fwrite("hello\n"),
-    hello.
+new() ->
+    io:fwrite("creating new db\n"),
+    [].
+
+append(Event, Db) ->
+    NewDb = lists:append(Db, Event),
+    NewDb.
