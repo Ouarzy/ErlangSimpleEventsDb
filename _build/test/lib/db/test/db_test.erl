@@ -7,7 +7,7 @@ new_test() -> ?assertEqual(db:new(), []).
 
 append_test() -> 
     ExpectedUid =uuid:uuid1(),
-    ?assert(db:append({messageTweeted, ExpectedUid}, db:new()) == [{messageTweeted, ExpectedUid}]).
+    ?assertEqual([{messageTweeted, ExpectedUid}], db:append({messageTweeted, ExpectedUid}, db:new())).
 
 
 

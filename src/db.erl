@@ -8,5 +8,5 @@ new() ->
     [].
 
 append(Event, Db) ->
-    NewDb = lists:append(Db, Event),
+    NewDb = lists:append(Db, [Event]),
     NewDb.
