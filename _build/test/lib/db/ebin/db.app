@@ -1,6 +1,0 @@
-{application,db,
-             [{description,"a simple event db application"},
-              {vsn,"0.1.0"},
-              {registered,[]},
-              {applications,[kernel,stdlib]},
-              {modules,[db]}]}.
