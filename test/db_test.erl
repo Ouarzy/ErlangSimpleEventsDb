@@ -6,8 +6,8 @@
 new_test() -> ?assertEqual(db:new(), []).
 
 append_test() -> 
-    ExpectedUid =uuid:uuid1(),
-    ?assertEqual([{messageTweeted, ExpectedUid}], db:append({messageTweeted, ExpectedUid}, db:new())).
+    ExpectedStreamId =uuid:uuid1(),
+    ?assertEqual([{ExpectedStreamId, [{messageTweeted, "hello"}]}], db:appendToStream(db:new(), ExpectedStreamId, {messageTweeted, "hello"})).
 
 
 
