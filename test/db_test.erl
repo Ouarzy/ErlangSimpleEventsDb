@@ -3,17 +3,20 @@
 -include_lib("eunit/include/eunit.hrl").
 
 
-new_test() -> ?assertEqual(db:new(), []).
+new_test() -> ?assertEqual(db:new(), events).
 
 appendToStream_test() -> 
     ExpectedStreamId =uuid:uuid1(),
-    ?assertEqual([{ExpectedStreamId, {messageTweeted, "hello"}}], db:appendToStream(db:new(), ExpectedStreamId, {messageTweeted, "hello"})).
+    ?assertEqual(true, db:appendToStream(ExpectedStreamId, {messageTweeted, "hello"})).
 
 
-getEventsByStream_test() -> 
+getEventsByStreamOnExistingStream_test() -> 
     ExpectedStreamId =uuid:uuid1(),
-    Db = db:new(),
-    DbWithTweeted = db:appendToStream(Db, ExpectedStreamId, {messageTweeted, "hello"}),
-    DbWithDeleted = db:appendToStream(DbWithTweeted, ExpectedStreamId, {messageDeleted}),
-    ?assertEqual({ExpectedStreamId, [{messageTweeted, "hello"}, {messageDeleted}]}, db:getEventsByStream(DbWithDeleted, ExpectedStreamId)).
+   % db:new(),
+    db:appendToStream(ExpectedStreamId, {messageTweeted, "hello"}),
+    db:appendToStream(ExpectedStreamId, {messageDeleted}),
+    ?assertEqual({ok, [{messageTweeted, "hello"}, {messageDeleted}]}, db:getEventsByStream(ExpectedStreamId)).
 
+getEventsByStreamOnNotExistingStream_test() ->
+   % db:new(),
+ ?assertEqual({error, stream_does_not_exist}, db:getEventsByStream(uuid:uuid1())).
